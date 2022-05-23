@@ -5,7 +5,7 @@ import tkinter.font as font
 import time
 
 def start1():
-    print("HALO")
+    print("Loo")
 
 root = tk.Tk()
 root.title('Badanie rozwiązywania problemów')
