@@ -1,0 +1,15 @@
+Cieżko o inną opcję, wydaje mi się że każdy musi być na bierząco z kodem.
+Więc w razie jakichkolwiek niejasności pisać na konfie.
+
+__Rozłożenie zadań__
+ Plan A:
+ Emma:
+ Zjamie się zrobieniem autorskich grafik .png, potrzebne będą:
+ - Buźki: klasyczna, do wygranej, do przegranej,
+ - Elementy: flaga, mina, mina-czerwona.
+ + zaprogramuje całe rozmieszczenie programu (frame, timery, licznik min).
+ 
+ Zofia i Gracjan:
+ W tym czasie będziemy pracować na oknie głównym (z minami) i będziemy robić wspólnie główny kod.
+ Ograniczy to z 3 do 2 osób, które muszą być na bierząco. 
+ A wszystkie zmiany w pliku będziemy opisywać w commitach.
