@@ -9,8 +9,7 @@ def Start():
     PanelGlowny(root)
 
 def PanelGlowny(root):
-    przyciski = [tk.Button(frame, width = 2,
-height = 1) for i in range(Kolumny*Wiersze)]
+    przyciski = [tk.Button(frame, width = 2, height = 1) for i in range(Kolumny*Wiersze)]
 
     for i in range(Wiersze):
         for j in range(Kolumny):
