@@ -21,7 +21,7 @@ Kolumny = 10
 Wiersze = 10
 
 root = tk.Tk()
-root.title('Badanie rozwiązywania problemów')
+root.title('Saper')
 root.geometry('600x400')
 
 InfoFont = font.Font(family='Tahoma', size=20)
