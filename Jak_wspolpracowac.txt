@@ -7,9 +7,31 @@ __Rozłożenie zadań__
  Zjamie się zrobieniem autorskich grafik .png, potrzebne będą:
  - Buźki: klasyczna, do wygranej, do przegranej,
  - Elementy: flaga, mina, mina-czerwona.
- + zaprogramuje całe rozmieszczenie programu (frame, timery, licznik min).
+ + zaprogramuje całe rozmieszczenie programu (frame, timer, licznik min).
+ Timer - liczący sekundy w ile udało się ukończyć grę,
+ Licznik min - licznik ile zostało min na mapie do oflagowania.
+ 
+ Funkcje:
+ 1. Stwórz panel górny,
+ 2. Aktualizuj zegar,
+ 3. Aktualizuj licznik minut,
+ 4. Aktualizuj buźkę.
+ 
+ 5. Załadowanie grafik przycisków*
  
  Zofia i Gracjan:
  W tym czasie będziemy pracować na oknie głównym (z minami) i będziemy robić wspólnie główny kod.
  Ograniczy to z 3 do 2 osób, które muszą być na bierząco. 
  A wszystkie zmiany w pliku będziemy opisywać w commitach.
+
+Sprawdzamy po commitach co było ostatnio zrobione i wtedy kiedy mamy chwilę myślimy nad tym następnym z listy:
+(dzielimy się mniej więcej na pół 4 - 4, może że wyjdzie więcej)
+Funkcje:
+1. Stworzenie planszy (Gracjan),
+2. Wylosowanie min,
+3. Lewego kliknięcia - sprawdzenie,
+4. Lewego kliknięcia c.d. - policz ile bomb dookoła,
+5. Prawego kliknięcia - oflagowanie, 
+6. Prawego kliknięcia c.d. - od-flagowanie,
+7. Przegrana - po kliknięciu na bombę,
+8. Wygrana - po oflagowaniu wszystkich bomb i sprawdzeniu wszystkich miejsc,
