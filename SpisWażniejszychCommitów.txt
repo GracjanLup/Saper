@@ -1,0 +1,27 @@
+
+Gracjan 25.05.2022 - Funkcja PanelGlowny():
+
+Pętla dwuwymiarowa przycisków -> tworzy tabele pola_gry[] o indeksach 0 do 99, w następujący sposób:
+Indeks = i*Kolumny+j, Położenie = (Kolumna(j), Wiersz(i+1))
+Najpierw tworzy 1 wiersz:
+
+Indeks = 0*10+0=0, Położenie = (Kolumna(0), Wiersz(0+1=1)) = (0,1) -> skrajny prawy górny przycisk,
+Indeks = 0*10+1=1, Położenie = (Kolumna(1), Wiersz(0+1=1)) = (1,1)
+...
+Indeks = 0*10+9=9, Położenie = Wiersz(0+1=1), Kolumna(9) = (1, 9)
+Powtarzamy zewnętrzną pętlę (i+1)
+Indeks = 1*10+0=10, Położenie = Wiersz(1+1=2), Kolumna(0) = (2, 0)
+Indeks = 1*10+1=11, Położenie = Wiersz(1+1=2), Kolumna(1) = (2, 1)
+...
+Indeks = 9*10+8=98, Położenie = Wiersz(9+1=10), Kolumna(8) = (10, 8)
+Indeks = 9*10+9=99, Położenie = Wiersz(9+1=10), Kolumna(9) = (10, 9) -> skrajny lewy dół przycisk.
+
+Więc podsumowując mamy tabelę pola_gry[0-99], ułożonych w 10 wierszach(1-10) i w 10 kolumnach (0-9).
+
++Dodatkowo:
+Mamy przycisk do późniejszej modyfikacji StartButton, który
+command=lambda:[StartButton.pack_forget(), Start()] -> wywołuje funkcje Start() i znika(pack_forget())
+
+i mamy frame -> pole gry, na razie przystosowane do gry 10x10 
+place(relwidth=0.4, relheight=0.66, relx=0.3, rely=0.17) -> umiejscowiony w środku okna głównego(root) = (relx i rely) i 
+na 0.4 szerokości okna (relwidth) oraz na 0.66 wysokońci okna głownego (relheight). 
