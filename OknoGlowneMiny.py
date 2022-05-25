@@ -5,7 +5,7 @@ import tkinter.font as font
 import time
 
 def Start():
-    print("Ok")
+    print("siema")
     PanelGlowny(root)
 
 def PanelGlowny(root):
