@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 import tkinter.font as font
 import time
+import random
 
 def Start():
     print("siema")
@@ -16,6 +17,16 @@ def PanelGlowny(root):
         for j in range(Kolumny):
             pola_gry[i*Kolumny + j].grid(row = i+1, column = j)
     return pola_gry
+
+def Wylosowanie_min():
+    liczba_min = 20
+    pozycje_min = []
+    for i in range(liczba_min):
+        tmp = [random.randint(1,10), random.randint(1,10)]
+        while tmp in pozycje_min:
+            tmp = [random.randint(1,10), random.randint(1,10)]
+        pozycje_min.append(tmp)
+    return pozycje_min
 
 Kolumny = 10
 Wiersze = 10
