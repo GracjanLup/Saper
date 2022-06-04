@@ -6,7 +6,7 @@ import time
 import random
 
 def Start():
-    print("siema")
+    print("Eloo")
     PanelGlowny(root)
 
 def PanelGlowny(root):
