@@ -10,9 +10,7 @@ def Start():
     PanelGlowny(root)
 
 def PanelGlowny(root):
-    przyciski = [tk.Button(frame, width = 2, height = 1) for i in range(Kolumny*Wiersze)]
     pola_gry = [tk.Button(frame, width = 2, height = 1) for i in range(Kolumny*Wiersze)]
-
     for i in range(Wiersze):
         for j in range(Kolumny):
             pola_gry[i*Kolumny + j].grid(row = i+1, column = j)
