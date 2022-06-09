@@ -12,10 +12,10 @@ from functools import partial
 
 # panel powitalny
 def welcome_panel():
-    welcome = Label(text="Witamy w grze Saper!", font=info_font)
+    welcome = Label(root, text="Witamy w grze Saper!", font=info_font)
     welcome.pack()
-    
-    startButton = Button(text='Start!', font=button_font, command=lambda:[hide_all_widgets(), set_level_of_game()])
+
+    startButton = Button(root, text='Start!', font=button_font, command=lambda:[hide_all_widgets(), set_level_of_game()])
     startButton.pack()
 
 # panel wyboru poziomu trudności gry
@@ -44,7 +44,7 @@ def run_game(number_of_mines, number_of_rows, number_of_columns):
     mines_positions = draw_of_mines(number_of_mines, number_of_fields)
 
     # ustalenie górnego panelu
-    upper_panel = tk.Frame(root, bg="pink")
+    upper_panel = tk.Frame(root, bg="grey")
     upper_panel.place(relwidth=1, relheight=0.125)
 
     # ustalenie dolnego panelu
