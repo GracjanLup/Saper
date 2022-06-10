@@ -4,11 +4,19 @@ from tkinter import *
 from tkinter import messagebox
 import tkinter.font as font
 import time
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageFilter
+
 CZAS=0
 
-def Start():
+def Witaj():
     print("siema")
+    emotikona.config(image=przycisk)
+    emotikona.after(400, aktualizujEmotke)
+
+def aktualizujEmotke():
+    emotikona.config(image=emotikona_przycisk)
+
+def Start():
     PanelGlowny(root)
 
 def PanelGlowny(root):
@@ -21,18 +29,11 @@ def PanelGlowny(root):
     return pola_gry
 
 def PanelGorny(root):
-
     aktualizacjaZegara(root, zegar)
 
-    # licznik_min=tk.Label(root, bg="black", fg="red", font=("Digital-7", 20))
-    # licznik_min.place(x=200, y=10)
-    # licznik_min["text"]="000"
-    # aktualizacjaLicznikaMin(root, licznik_min)
-
-
-
-    panel_gorny=[zegar, emotikona]
+    panel_gorny=[zegar]
     return panel_gorny
+#w tej funckji będzie jeszcze licznik min i przycisk postaci buźki
 
 def aktualizacjaZegara(root, zegar):
     global CZAS
@@ -40,7 +41,6 @@ def aktualizacjaZegara(root, zegar):
     zegar["text"]="0"*(3-len(str(CZAS)))+str(CZAS)
     root.after(1000, aktualizacjaZegara, root, zegar)
 
-# def aktualizacjaLicznikaMin()
 Kolumny = 10
 Wiersze = 10
 root = tk.Tk()
@@ -54,16 +54,19 @@ panel_gorny.place(relwidth=1, relheight=0.125)
 frame = tk.Frame(root, bg="white")
 frame.place(relwidth=1, relheight=0.875, rely=0.125)
 
-zegar= tk.Label(bg="black", fg="red", font=("Digital-7", 20))
+zegar = tk.Label(bg="black", fg="red", font=("Digital-7", 20))
 zegar.place(x=370, y=10)
-zegar["text"]="0001"
+zegar["text"]="001"
 
 emotikona_przycisk=Image.open("buzka_usmiech.png")
-emotikona_przycisk=emotikona_przycisk.resize((60,60))
+emotikona_przycisk=emotikona_przycisk.resize((40,40))
 emotikona_przycisk=ImageTk.PhotoImage(emotikona_przycisk)
-emotikona=tk.Button(root, width=20, height=20, image=emotikona_przycisk)
-emotikona.place(x=290, y=10)
+emotikona=tk.Button(root, width=40, height=40, image=emotikona_przycisk, command=lambda:[Witaj()])
+emotikona.place(x=270, y=0)
 
+przycisk = Image.open("buzka_wow.png")
+przycisk = przycisk.resize((30,30))
+przycisk = ImageTk.PhotoImage(przycisk)
 
 Start()
 panel_gorny=PanelGorny(root)
