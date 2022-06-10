@@ -1,0 +1,2 @@
+1. Liczenie bomb przy krawędziach,
+2. For bind (63 linijka)
