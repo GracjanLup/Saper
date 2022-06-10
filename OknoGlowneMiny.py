@@ -75,7 +75,7 @@ def check_position(i):
         for x in numbers:
             if x in mines_positions:
                 count += 1
-        pola_gry[i].config(image='', text=count)
+        pola_gry[i].config(image=cyfra1, text='')
     # do dokończenia sprawdzanie sąsiadów
 
 # generowanie pozycji min
@@ -106,6 +106,27 @@ test = ImageTk.PhotoImage(obraz)
 mina = Image.open("Grafiki/bomba.png")
 mina = mina.resize((30,30))
 mina = ImageTk.PhotoImage(mina)
+
+# inicjalizacja grafik liczb
+cyfra1 = Image.open("Grafiki/1.png")
+cyfra1 = cyfra1.resize((30,30))
+cyfra1 = ImageTk.PhotoImage(cyfra1)
+
+cyfra2 = Image.open("Grafiki/2.png")
+cyfra2 = cyfra2.resize((30,30))
+cyfra2 = ImageTk.PhotoImage(cyfra2)
+
+cyfra3 = Image.open("Grafiki/3.png")
+cyfra3 = cyfra3.resize((30,30))
+cyfra3 = ImageTk.PhotoImage(cyfra3)
+
+cyfra4 = Image.open("Grafiki/4.png")
+cyfra4 = cyfra4.resize((30,30))
+cyfra4 = ImageTk.PhotoImage(cyfra4)
+
+cyfra5 = Image.open("Grafiki/5.png")
+cyfra5 = cyfra5.resize((30,30))
+cyfra5 = ImageTk.PhotoImage(cyfra5)
 
 info_font = font.Font(family='Tahoma', size=20)
 button_font = font.Font(family='Tahoma', size=20)
