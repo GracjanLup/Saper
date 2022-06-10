@@ -35,3 +35,5 @@ Funkcje:
 6. Prawego kliknięcia c.d. - od-flagowanie (Gracjan),
 7. Przegrana - po kliknięciu na bombę (Gracjan),
 8. Wygrana - po oflagowaniu wszystkich bomb i sprawdzeniu wszystkich miejsc,
+
+9. Odsłonięcia pul 0.
