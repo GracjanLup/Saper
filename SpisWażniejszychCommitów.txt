@@ -1,6 +1,5 @@
 
 Gracjan 25.05.2022 - Funkcja PanelGlowny():
-
 Pętla dwuwymiarowa przycisków -> tworzy tabele pola_gry[] o indeksach 0 do 99, w następujący sposób:
 Indeks = i*Kolumny+j, Położenie = (Kolumna(j), Wiersz(i+1))
 Najpierw tworzy 1 wiersz:
@@ -25,3 +24,23 @@ command=lambda:[StartButton.pack_forget(), Start()] -> wywołuje funkcje Start()
 i mamy frame -> pole gry, na razie przystosowane do gry 10x10 
 place(relwidth=0.4, relheight=0.66, relx=0.3, rely=0.17) -> umiejscowiony w środku okna głównego(root) = (relx i rely) i 
 na 0.4 szerokości okna (relwidth) oraz na 0.66 wysokońci okna głownego (relheight). 
+
+Zofia 25.05.2022 - Funkcja draw_of_mines:
+...
+Zofia 08.06.2022 - Funkcja check_position:
+...
+
+Gracjan 10.06.2022 - Funkcja end_game, right_click, reset:
+Funkcja end_game: 
+Aktywuje się po kliknięciu na dowolną minę, co zmienia również grafikę klikniętej miny na red_bomb.png
+- blokuje klikanie lewym przyciskiem na jakikolwiek buttona,
+- zamienia grafiki pozostałych bomb na bomba.png,
+
+Funkcja right_cilck:
+Aktywowana za pomocą binda na odpowiednich przyciskach,
+- zmienia grafikę pola na flaga.png,
+- zmienia binda na reset,
+
+Funcjak reset:
+- zmienia grafikę spowrotem na domyślną i przywraca możliwość klikania lewym,
+- zmienia binda spowrotem na right_click co daje nam pętle (co drugi klik flaga).
