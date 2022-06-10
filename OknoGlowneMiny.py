@@ -110,8 +110,6 @@ mina = ImageTk.PhotoImage(mina)
 info_font = font.Font(family='Tahoma', size=20)
 button_font = font.Font(family='Tahoma', size=20)
 
-
-
 # uruchomienie wykonywania programu
 welcome_panel()
 
