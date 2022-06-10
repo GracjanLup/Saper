@@ -100,17 +100,17 @@ root.geometry('1200x800')
 
 obraz = Image.open("Grafiki/test.png")
 obraz = obraz.resize((30, 30))
-obraz = obraz.filter(ImageFilter.CONTOUR)
 test = ImageTk.PhotoImage(obraz)
 
 # inicjalizacja grafiki dla bomby
 mina = Image.open("Grafiki/bomba.png")
 mina = mina.resize((30,30))
-mina = mina.filter(ImageFilter.CONTOUR)
 mina = ImageTk.PhotoImage(mina)
 
 info_font = font.Font(family='Tahoma', size=20)
 button_font = font.Font(family='Tahoma', size=20)
+
+
 
 # uruchomienie wykonywania programu
 welcome_panel()
