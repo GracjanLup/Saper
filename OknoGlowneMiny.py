@@ -256,7 +256,7 @@ def end_game(i):
 
 ##### Prawe kliknięcie myszy #####
 def right_click(a):
-    pola_gry[a].config(image=flaga, command='')
+    pola_gry[a].config(image=rat, command='')
     pola_gry[a].bind('<Button-3>', lambda event: reset(a))
 
 ##### Ponowne kliknięcie prawego przycisku myszy #####
@@ -303,11 +303,6 @@ mina_red = Image.open("Grafiki/bomba_red.png")
 mina_red = mina_red.resize((40,40))
 mina_red = ImageTk.PhotoImage(mina_red)
 
-# inicjalizacja grafiki dla flagi
-flaga = Image.open("Grafiki/flaga.png")
-flaga = flaga.resize((40,40))
-flaga = ImageTk.PhotoImage(flaga)
-
 # inicjalizacja grafik liczb
 cyfra1 = Image.open("Grafiki/1.png")
 cyfra1 = cyfra1.resize((40,40))
@@ -334,9 +329,9 @@ cyfra0 = cyfra0.resize((40,40))
 cyfra0 = ImageTk.PhotoImage(cyfra0)
 
 # Inicjalizacja grafik panelu górnego
-szczur = Image.open("Grafiki/szczur.png")
-szczur = szczur.resize((40,40))
-szczur = ImageTk.PhotoImage(szczur)
+rat = Image.open("Grafiki/rat.png")
+rat = rat.resize((40,40))
+rat = ImageTk.PhotoImage(rat)
 
 buzka1 = Image.open("Grafiki/buzka_usmiech.png")
 buzka1 = buzka1.resize((40,40))
