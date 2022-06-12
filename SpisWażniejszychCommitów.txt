@@ -26,9 +26,11 @@ place(relwidth=0.4, relheight=0.66, relx=0.3, rely=0.17) -> umiejscowiony w śro
 na 0.4 szerokości okna (relwidth) oraz na 0.66 wysokońci okna głownego (relheight). 
 
 Zofia 25.05.2022 - Funkcja draw_of_mines:
-...
+- losuje unikalne pozycje min
+- przypisuje wylosowane pozycje do listy
 Zofia 08.06.2022 - Funkcja check_position:
-...
+- sprawdza czy dana pozycja jest miną
+- jeśli nie jest miną, to funkcja sprawdza wszystkich sąsiadów, dla wszystkich możliwych kombinacji 
 
 Gracjan 10.06.2022 - Funkcja end_game, right_click, reset:
 Funkcja end_game: 
