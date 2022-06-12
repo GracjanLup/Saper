@@ -16,7 +16,7 @@ def welcome_panel():
     welcome = Label(root, text="Witamy w grze Saper!", font=info_font)
     welcome.pack()
 
-    # difiniowanie przycisku do uruchmienia gry
+    # difiniowanie przycisku do uruchomienia gry
     start_button = Button(root, text='Start!', font=button_font, command=lambda:[hide_all_widgets(), set_level_of_game()])
     start_button.pack()
 
@@ -27,21 +27,22 @@ def set_level_of_game():
     info.pack()
 
     ### Przyciski określające możliwe do wyboru poziomy gry ###
-    # kliknięcie przycisku skutkuje uruchomieniem funkcji run_game
+    # kliknięcie przycisku skutkuje uruchomieniem funkcji run_game z odpowiednimi parametrami
     # poziom łatwy
-    l1 = Button(text='Latwy', font=button_font, command=lambda:[hide_all_widgets(), run_game(10, 8, 8)])
+    l1 = Button(text='Latwy', font=button_font, command=lambda:[hide_all_widgets(), run_game(10, 8, 8, "easy")])
     l1.pack()
 
     # poziom średni
-    l2 = Button(text='Sredni', font=button_font, command=lambda:[hide_all_widgets(), run_game(40, 16, 16)])
+    l2 = Button(text='Trudny', font=button_font, command=lambda:[hide_all_widgets(), run_game(40, 16, 16, "hard")])
     l2.pack()
 
-    # poziom trudny
-    l3 = Button(text='Trudny', font=button_font, command=lambda:[hide_all_widgets(), run_game(99, 30, 16)])
-    l3.pack()
-
 ##### Uruchomienie gry #####
-def run_game(number_of_mines, number_of_rows, number_of_columns):
+def run_game(number_of_mines, number_of_rows, number_of_columns, level_game):
+
+    # definiowanie zmiennej globalnej przechowującej informacje o poziomie trudności gry
+    global level
+    level = level_game
+
     # definiowanie łącznej ilości pól
     number_of_fields = number_of_rows * number_of_columns
 
@@ -62,36 +63,26 @@ def run_game(number_of_mines, number_of_rows, number_of_columns):
     global pola_gry
     # przyciski posiadają unikalne identyfikatory
     # partial pozwala na uruchomienie funkcji z parametrem - w tym przypadku sprawdzającej właściwości pola
-    pola_gry = [tk.Button(main_panel, image=test, command=partial(check_position, i)) for i in range(number_of_fields)]
+    # generowanie przycisków dla poziomu łatwego
+    if level == "easy":
+        pola_gry = [tk.Button(main_panel, image=test, command=partial(check_position_easy, i)) for i in range(number_of_fields)]
+    # generowanie przycisków dla poziomu trudnego
+    else:
+        pola_gry = [tk.Button(main_panel, image=test, command=partial(check_position_hard, i)) for i in range(number_of_fields)]
 
     # rysowanie planszy
     for i in range(number_of_rows):
         for j in range(number_of_columns):
             pola_gry[i * number_of_columns + j].grid(row = j, column = i)
+            pola_gry[i * number_of_columns + j].bind('<Button-3>', right_click)
 
-    pola_gry[0].bind('<Button-3>', lambda event: right_click(0))
-    pola_gry[1].bind('<Button-3>', lambda event: right_click(1))
-    pola_gry[2].bind('<Button-3>', lambda event: right_click(2))
-    pola_gry[3].bind('<Button-3>', lambda event: right_click(3))
-    pola_gry[4].bind('<Button-3>', lambda event: right_click(4))
-    pola_gry[5].bind('<Button-3>', lambda event: right_click(5))
-    pola_gry[6].bind('<Button-3>', lambda event: right_click(6))
-    pola_gry[7].bind('<Button-3>', lambda event: right_click(7))
-    pola_gry[8].bind('<Button-3>', lambda event: right_click(8))
-    pola_gry[9].bind('<Button-3>', lambda event: right_click(9))
-    pola_gry[10].bind('<Button-3>', lambda event: right_click(10))
-    pola_gry[11].bind('<Button-3>', lambda event: right_click(11))
-    pola_gry[12].bind('<Button-3>', lambda event: right_click(12))
-    pola_gry[13].bind('<Button-3>', lambda event: right_click(13))
-    pola_gry[14].bind('<Button-3>', lambda event: right_click(14))
-
-##### Sprawdzanie pola - czy mina, sprawdzanie sąsiadów #####
-def check_position(i):
+##### Sprawdzanie pól dla poziomu łatwego - czy mina, sprawdzanie sąsiadów #####
+def check_position_easy(i):
     # określenie krawędzi - pola wymagające szczególnego sprawdzenia
-    left_edges = [1, 2, 3, 4, 5, 6]
-    bottom_edges = [15, 23, 31, 39, 47, 55]
-    right_edges = [57, 58, 59, 60, 61, 62]
-    upper_udges = [8, 16, 24, 32, 40, 48]
+    left_edges = [x for x in range(1, 7)]
+    bottom_edges = [x for x in range(15, 56, 8)]
+    right_edges = [x for x in range(57, 63)]
+    upper_udges = [x for x in range(8, 49, 8)]
 
     # definicja liczby określającej ilośc
     count = 0
@@ -140,20 +131,85 @@ def check_position(i):
             numbers = [i - 9, i - 8, i - 7, i - 1, i + 1, i + 7, i + 8, i + 9]
             count = neighbour_check(numbers)
 
-        # przypisanie odpowiedniego obrazka prezentującego cyfrę
+        # funkcja przypisująca odpowiedni obrazek prezentujący cyfrę
         # zależność od ilości posiadanych bomb jako sąsiadów
-        if count == 1:
-            pola_gry[i].config(image=cyfra1)
-        elif count == 2:
-            pola_gry[i].config(image=cyfra2)
-        elif count == 3:
-            pola_gry[i].config(image=cyfra3)
-        elif count == 4:
-            pola_gry[i].config(image=cyfra4)
-        elif count == 5:
-            pola_gry[i].config(image=cyfra5)
-        elif count == 0:
-            pola_gry[i].config(image=cyfra0)
+        set_image_of_number(i, count)
+
+##### Sprawdzanie pól dla poziomu trudnego - czy mina, sprawdzanie sąsiadów #####
+def check_position_hard(i):
+    # określenie krawędzi - pola wymagające szczególnego sprawdzenia
+    left_edges = [x for x in range(1, 15)]
+    bottom_edges = [x for x in range(31, 240, 16)]
+    right_edges = [x for x in range(241, 255)]
+    upper_udges = [x for x in range(16, 225, 16)]
+
+    # definicja liczby określającej ilośc
+    count = 0
+
+    # sprawdzenie czy pozycja jest miną:
+    # TAK - koniec gry
+    # NIE - sprawdzanie ilości bomb jako sąsiadów
+    if i in mines_positions:
+        pola_gry[i].config(image=mina_red)
+        end_game(i)
+    else:
+        # lewy górny róg - ilość bomb jako sąsiadów
+        if i == 0:
+            numbers = [i + 1, i + 16, i + 17]
+            count = neighbour_check(numbers)
+        # lewy dolny róg - ilość bomb jako sąsiadów
+        elif i == 15:
+            numbers = [i - 1, i + 15, i + 16]
+            count = neighbour_check(numbers)
+        # prawy górny róg - ilość bomb jako sąsiadów
+        elif i == 240:
+            numbers = [i - 16, i - 15, i + 1]
+            count = neighbour_check(numbers)
+        # prawy dolny róg - ilość bomb jako sąsiadów
+        elif i == 255:
+            numbers = [i - 17, i - 16, i - 1]
+            count = neighbour_check(numbers)
+        # lewa krawędź - ilość bomb jako sąsiadów
+        elif i in left_edges:
+            numbers = [i - 1, i + 1, i + 15, i + 16, i + 17]
+            count = neighbour_check(numbers)
+        # dolna krawędź - ilość bomb jako sąsiadów
+        elif i in bottom_edges:
+            numbers = [i - 17, i - 16, i - 1, i + 15, i + 16]
+            count = neighbour_check(numbers)
+        # prawa krawędź - ilość bomb jako sąsiadów
+        elif i in right_edges:
+            numbers = [i - 17, i - 16, i - 15, i - 1, i + 1]
+            count = neighbour_check(numbers)
+        # górna krawędź - ilość bomb jako sąsiadów
+        elif i in upper_udges:
+            numbers = [i - 16, i - 15, i + 1, i + 16, i + 17]
+            count = neighbour_check(numbers)
+        # pozostałe pola - ilość bomb jako sąsiadów
+        else:
+            numbers = [i - 17, i - 16, i - 15, i - 1, i + 1, i + 15, i + 16, i + 17]
+            count = neighbour_check(numbers)
+
+        # funkcja przypisująca odpowiedni obrazek prezentujący cyfrę
+        # zależność od ilości posiadanych bomb jako sąsiadów
+        set_image_of_number(i, count)
+
+##### Przypisywanie obrazka prezentującego cyfrę - zależność od posiadanych bomb sąsiadów #####
+def set_image_of_number(i, count):
+    # liczba bomb 1 - przypisz obrazek cyfra1
+    if count == 1:
+        pola_gry[i].config(image=cyfra1)
+    # analogicznie jak wyżej
+    elif count == 2:
+        pola_gry[i].config(image=cyfra2)
+    elif count == 3:
+        pola_gry[i].config(image=cyfra3)
+    elif count == 4:
+        pola_gry[i].config(image=cyfra4)
+    elif count == 5:
+        pola_gry[i].config(image=cyfra5)
+    elif count == 0:
+        pola_gry[i].config(image=cyfra0)
 
 ##### Sprawdzanie ilości bomb jako sąsiadów #####
 def neighbour_check(numbers):
@@ -171,7 +227,6 @@ def draw_of_mines(number_of_mines, number_of_fields):
         while tmp in mines_positions:
             tmp = random.randint(0, number_of_fields)
         mines_positions.append(tmp)
-    print(mines_positions)
     return mines_positions
 
 ##### Ukrywanie wszystkich aktualnie wyświetlanych widgetów #####
@@ -185,18 +240,28 @@ def end_game(i):
     mines_positions.remove(i)
     for i in range(len(pola_gry)):
         pola_gry[i].config(command='')
+        pola_gry[i].unbind('<Button-3>')
     for j in mines_positions:
         pola_gry[j].config(image=mina)
 
 ##### Prawe kliknięcie myszy #####
-def right_click(a):
-    pola_gry[a].config(image=flaga, command='')
-    pola_gry[a].bind('<Button-3>', lambda event: reset(a))
+def right_click(event):
+    # usunięcie możliwości sprawdzenia pozycji przy ustawionej fladze
+    event.widget.configure(image = flaga, command = '')
+    # zbindowanie na prawym przycisku funkcji reset
+    event.widget.bind('<Button-3>', reset)
 
-##### Ponowne kliknięcie prawego przycisku myszy #####
-def reset(a):
-    pola_gry[a].config(image=test, command=partial(check_position, a))
-    pola_gry[a].bind('<Button-3>', lambda event: right_click(a))
+##### Ponowne kliknięcie prawego przycisku myszy - usunięcie flagi #####
+def reset(event):
+    # sprawdzene indeksu dla klikniętego widgetu w liście
+    index_of_button = pola_gry.index(event.widget)
+    # w zależności od levelu przypisujemy na nowo obrazek i wywoływaną funkcję po kliknięciu
+    if level == "easy":
+        event.widget.configure(image = test, command = partial(check_position_easy, index_of_button))
+    else:
+        event.widget.configure(image=test, command=partial(check_position_hard, index_of_button))
+    # zbindowanie na prawym przycisku funkcji right_click
+    event.widget.bind('<Button-3>', right_click)
 
 root = tk.Tk()
 root.title('Saper')
