@@ -28,9 +28,9 @@ Sprawdzamy po commitach co było ostatnio zrobione i wtedy kiedy mamy chwilę my
 (dzielimy się mniej więcej na pół 4 - 4, może że wyjdzie więcej)
 Funkcje:
 1. Stworzenie planszy (Gracjan),
-2. Wylosowanie min,
-3. Lewego kliknięcia - sprawdzenie,
-4. Lewego kliknięcia c.d. - policz ile bomb dookoła,
+2. Wylosowanie min (Zofia),
+3. Lewego kliknięcia - sprawdzenie (Zofia),
+4. Lewego kliknięcia c.d. - policz ile bomb dookoła (Zofia),
 5. Prawego kliknięcia - oflagowanie (Gracjan), 
 6. Prawego kliknięcia c.d. - od-flagowanie (Gracjan),
 7. Przegrana - po kliknięciu na bombę (Gracjan),
