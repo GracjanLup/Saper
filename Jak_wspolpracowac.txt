@@ -27,13 +27,13 @@ __Rozłożenie zadań__
 Sprawdzamy po commitach co było ostatnio zrobione i wtedy kiedy mamy chwilę myślimy nad tym następnym z listy:
 (dzielimy się mniej więcej na pół 4 - 4, może że wyjdzie więcej)
 Funkcje:
-1. Stworzenie planszy (Gracjan),
+1. Stworzenie planszy (Gracjan i Zofia),
 2. Wylosowanie min (Zofia),
 3. Lewego kliknięcia - sprawdzenie (Zofia),
 4. Lewego kliknięcia c.d. - policz ile bomb dookoła (Zofia),
-5. Prawego kliknięcia - oflagowanie (Gracjan), 
-6. Prawego kliknięcia c.d. - od-flagowanie (Gracjan),
+5. Prawego kliknięcia - oflagowanie (Gracjan i Zofia), 
+6. Prawego kliknięcia c.d. - od-flagowanie (Gracjan i Zofia),
 7. Przegrana - po kliknięciu na bombę (Gracjan),
-8. Wygrana - po oflagowaniu wszystkich bomb i sprawdzeniu wszystkich miejsc,
+8. Wygrana - po oflagowaniu wszystkich bomb i sprawdzeniu wszystkich miejsc,(Gracjan)
 
 9. Odsłonięcia pul 0.
