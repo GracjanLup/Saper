@@ -26,6 +26,9 @@ def set_level_of_game():
     info_level = Label(main_panel, text="Wybierz poziom trudności gry:", font=info_font, fg="#7F1734", bg="black")
     info_level.place(x=30, y=80)
 
+    global Try_number
+    Try_number = 1
+
     ### Przyciski określające możliwe do wyboru poziomy gry ###
     # kliknięcie przycisku skutkuje uruchomieniem funkcji run_game z odpowiednimi parametrami
     # poziom łatwy
@@ -235,6 +238,12 @@ def set_image_of_number(i, count):
         pola_gry[i].config(image=cyfra4, command='')
     elif count == 5:
         pola_gry[i].config(image=cyfra5, command='')
+    elif count == 6:
+        pola_gry[i].config(image=cyfra6, command='')
+    elif count == 7:
+        pola_gry[i].config(image=cyfra7, command='')
+    elif count == 8:
+        pola_gry[i].config(image=cyfra8, command='')
     elif count == 0:
         pola_gry[i].config(image=cyfra0, command='')
 
@@ -263,6 +272,8 @@ def hide_all_widgets():
 
 ##### Koniec gry #####
 def lose_game(i):
+    global Defeat
+    Defeat = 1
     emotikona.config(image=buzka4)
     mines_positions.remove(i)
     for i in range(len(pola_gry)):
@@ -298,7 +309,10 @@ def reset(event):
 
 # Start panelu głównego - Emma:
 def gorny_start():
-    aktualizacjaZegara(zegar)
+    global Try_number
+    if Try_number == 1:
+        aktualizacjaZegara(zegar)
+    Try_number += 1
     aktualizacjaLicznikaMin(licznik_min, 0)
     panel_gorny=[zegar, licznik_min]
     return panel_gorny
@@ -328,10 +342,30 @@ def aktualizacjaLicznikaMin(licznik_min, variable):
 def aktualizujEmotke():
     emotikona.config(image=buzka1)
 
-# Kliknięcie buźki - Emma
+# Kliknięcie buźki - Emma (i restart gry)
 def ClickEmotke():
-    emotikona.config(image=buzka3)
-    emotikona.after(150, aktualizujEmotke)
+    global Punkty, Defeat, Timer
+    if level == "easy":
+        if Punkty >= 54 or Defeat == 1:
+            Punkty = 0
+            Timer = 0
+            # for i in range(len(pola_gry)):
+            #     pola_gry[i].config(main_panel, image=test, bg="#141414", command=partial(check_position_easy, i))
+            run_game(10, 8, 8, "easy")
+        else:
+            emotikona.config(image=buzka3)
+            emotikona.after(150, aktualizujEmotke)
+    else:
+        if Punkty >= 216 or Defeat == 1:
+            Punkty = 0
+            Timer = 0
+            run_game(40, 16, 16, "hard")
+            # for i in range(len(pola_gry)):
+            #     pola_gry[i].config(main_panel, image=test, bg="#141414", command=partial(check_position_easy, i))
+        else:
+            emotikona.config(image=buzka3)
+            emotikona.after(150, aktualizujEmotke)
+
 
 def ZeroCheck(level):
     for i in range (number_of_fields):
@@ -345,17 +379,14 @@ def ZeroCheck(level):
                 count += 1
         if count == 0:
             if i in mines_positions:
-                print("Uuu")
+                None
             else:
                 pola_gry[i].config(image=cyfra0, command='')
                 global Punkty
                 Punkty += 1
 
 Timer = 0
-Mine_number = 10
-Rat_number = Mine_number
 Punkty = 0
-
 
 root = tk.Tk()
 root.title('Minesweeper')
@@ -456,6 +487,18 @@ cyfra4 = ImageTk.PhotoImage(cyfra4)
 cyfra5 = Image.open("Grafiki/5.png")
 cyfra5 = cyfra5.resize((40,40))
 cyfra5 = ImageTk.PhotoImage(cyfra5)
+
+cyfra6 = Image.open("Grafiki/6.png")
+cyfra6 = cyfra6.resize((40,40))
+cyfra6 = ImageTk.PhotoImage(cyfra6)
+
+cyfra7 = Image.open("Grafiki/7.png")
+cyfra7 = cyfra7.resize((40,40))
+cyfra7 = ImageTk.PhotoImage(cyfra7)
+
+cyfra8 = Image.open("Grafiki/8.png")
+cyfra8 = cyfra8.resize((40,40))
+cyfra8 = ImageTk.PhotoImage(cyfra8)
 
 cyfra0 = Image.open("Grafiki/0.png")
 cyfra0 = cyfra0.resize((40,40))
