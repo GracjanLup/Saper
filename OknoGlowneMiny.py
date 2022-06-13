@@ -13,37 +13,50 @@ from functools import partial
 ##### Panel powitalny #####
 def welcome_panel():
     # definiowanie tekstu powitalnego
-    welcome = Label(root, text="Witamy w grze Saper!", font=info_font)
-    welcome.pack()
+    welcome = Label(main_panel, text="Witamy w grze Saper!", font=info_font, fg="#7F1734", bg="black")
+    welcome.place(x=70, y=80)
 
     # difiniowanie przycisku do uruchomienia gry
-    start_button = Button(root, text='Start!', font=button_font, command=lambda:[hide_all_widgets(), set_level_of_game()])
-    start_button.pack()
+    start_button = Button(main_panel, text='Start!', font=button_font, fg="#7F1734", bg="black", command=lambda:[start_button.place_forget(), welcome.place_forget(), set_level_of_game()])
+    start_button.place(x=140, y=130)
 
 ##### Wybór poziomu trudności gry #####
 def set_level_of_game():
     # definiowanie tekstu informacyjnego
-    info = Label(text="Wybierz poziom trudności gry:", font=info_font)
-    info.pack()
+    info_level = Label(main_panel, text="Wybierz poziom trudności gry:", font=info_font, fg="#7F1734", bg="black")
+    info_level.place(x=30, y=80)
 
     ### Przyciski określające możliwe do wyboru poziomy gry ###
     # kliknięcie przycisku skutkuje uruchomieniem funkcji run_game z odpowiednimi parametrami
     # poziom łatwy
-    l1 = Button(text='Latwy', font=button_font, command=lambda:[hide_all_widgets(), run_game(10, 8, 8, "easy")])
-    l1.pack()
+    level1 = Button(main_panel, text='ŁATWY', font=button_font, fg="#7F1734", bg="black", command=lambda:[level1.place_forget(), level2.place_forget(), info_level.place_forget(), run_game(10, 8, 8, "easy")])
+    level1.place(x=130, y=120)
 
-    # poziom średni
-    l2 = Button(text='Trudny', font=button_font, command=lambda:[hide_all_widgets(), run_game(40, 16, 16, "hard")])
-    l2.pack()
+    # poziom trudny
+    level2 = Button(main_panel, text='TRUDNY', font=button_font, fg="#7F1734", bg="black", command=lambda:[level1.place_forget(), level2.place_forget(), info_level.place_forget(), run_game(40, 16, 16, "hard")])
+    level2.place(x=125, y=170)
 
 ##### Uruchomienie gry #####
 def run_game(number_of_mines, number_of_rows, number_of_columns, level_game):
+
+    # Zmiana planszy na trudną:
+    if level_game == "hard":
+        root.geometry('850x900')
+        plotno.place_forget()
+        plotno2.place(x=0, y=0)
+        plotno2.create_image(420,460,image=obrazTk1)
+
+        upper_panel.place(width=740, height=40, y=60, x=50)
+        main_panel.place(width=737, height=737, y=130, x=50)
+        emotikona.place(x=390, y=55)
+        licznik_min.place(relx=0.25, y=0)
 
     # definiowanie zmiennej globalnej przechowującej informacje o poziomie trudności gry
     global level
     level = level_game
 
     # definiowanie łącznej ilości pól
+    global number_of_fields
     number_of_fields = number_of_rows * number_of_columns
 
     # definicja zmiennej globalnej przechowującej pozycje min
@@ -51,13 +64,10 @@ def run_game(number_of_mines, number_of_rows, number_of_columns, level_game):
     # wywołanie funkcji losującej pozycje min, przypisanie do zmiennej globalnej
     mines_positions = draw_of_mines(number_of_mines, number_of_fields)
 
-    # definiowanie wyglądu - panel górny
-    upper_panel = tk.Frame(root, bg="grey")
-    upper_panel.place(relwidth=1, relheight=0.125)
-
-    # definiowanie wyglądu - panel dolny
-    main_panel = tk.Frame(root, bg="white")
-    main_panel.place(rely=0.5, relx=0.5, anchor=CENTER)
+    # odpalenie funkcji panelu górnego
+    global Mine_number
+    Mine_number = number_of_mines
+    gorny_start()
 
     # definicja zmiennej globalnej przechowującej pola gry
     global pola_gry
@@ -65,10 +75,10 @@ def run_game(number_of_mines, number_of_rows, number_of_columns, level_game):
     # partial pozwala na uruchomienie funkcji z parametrem - w tym przypadku sprawdzającej właściwości pola
     # generowanie przycisków dla poziomu łatwego
     if level == "easy":
-        pola_gry = [tk.Button(main_panel, image=test, command=partial(check_position_easy, i)) for i in range(number_of_fields)]
+        pola_gry = [tk.Button(main_panel, image=test, bg="#141414", command=partial(check_position_easy, i)) for i in range(number_of_fields)]
     # generowanie przycisków dla poziomu trudnego
     else:
-        pola_gry = [tk.Button(main_panel, image=test, command=partial(check_position_hard, i)) for i in range(number_of_fields)]
+        pola_gry = [tk.Button(main_panel, image=test, bg="#141414", command=partial(check_position_hard, i)) for i in range(number_of_fields)]
 
     # rysowanie planszy
     for i in range(number_of_rows):
@@ -78,6 +88,10 @@ def run_game(number_of_mines, number_of_rows, number_of_columns, level_game):
 
 ##### Sprawdzanie pól dla poziomu łatwego - czy mina, sprawdzanie sąsiadów #####
 def check_position_easy(i):
+    # Tylko przy pierwszym kliknięciu odsłoń zera i daj punkty
+    global Punkty
+    if Punkty == 0:
+        ZeroCheck("easy")
     # określenie krawędzi - pola wymagające szczególnego sprawdzenia
     left_edges = [x for x in range(1, 7)]
     bottom_edges = [x for x in range(15, 56, 8)]
@@ -92,8 +106,11 @@ def check_position_easy(i):
     # NIE - sprawdzanie ilości bomb jako sąsiadów
     if i in mines_positions:
         pola_gry[i].config(image=mina_red)
-        end_game(i)
+        lose_game(i)
     else:
+        Punkty+=1
+        emotikona.config(image=buzka2)
+        emotikona.after(300, aktualizujEmotke)
         # lewy górny róg - ilość bomb jako sąsiadów
         if i == 0:
             numbers = [i + 1, i + 8, i + 9]
@@ -130,13 +147,19 @@ def check_position_easy(i):
         else:
             numbers = [i - 9, i - 8, i - 7, i - 1, i + 1, i + 7, i + 8, i + 9]
             count = neighbour_check(numbers)
-
+        # sprawdzenie czy to wszystkie pola
+        if Punkty == 54:
+            win_game()
         # funkcja przypisująca odpowiedni obrazek prezentujący cyfrę
         # zależność od ilości posiadanych bomb jako sąsiadów
         set_image_of_number(i, count)
 
 ##### Sprawdzanie pól dla poziomu trudnego - czy mina, sprawdzanie sąsiadów #####
 def check_position_hard(i):
+    # Tylko przy pierwszym kliknięciu odsłoń zera i daj punkty
+    global Punkty
+    if Punkty == 0:
+        ZeroCheck("hard")
     # określenie krawędzi - pola wymagające szczególnego sprawdzenia
     left_edges = [x for x in range(1, 15)]
     bottom_edges = [x for x in range(31, 240, 16)]
@@ -151,8 +174,11 @@ def check_position_hard(i):
     # NIE - sprawdzanie ilości bomb jako sąsiadów
     if i in mines_positions:
         pola_gry[i].config(image=mina_red)
-        end_game(i)
+        lose_game(i)
     else:
+        Punkty+=1
+        emotikona.config(image=buzka2)
+        emotikona.after(300, aktualizujEmotke)
         # lewy górny róg - ilość bomb jako sąsiadów
         if i == 0:
             numbers = [i + 1, i + 16, i + 17]
@@ -189,7 +215,8 @@ def check_position_hard(i):
         else:
             numbers = [i - 17, i - 16, i - 15, i - 1, i + 1, i + 15, i + 16, i + 17]
             count = neighbour_check(numbers)
-
+        if Punkty == 216:
+            win_game()
         # funkcja przypisująca odpowiedni obrazek prezentujący cyfrę
         # zależność od ilości posiadanych bomb jako sąsiadów
         set_image_of_number(i, count)
@@ -198,18 +225,18 @@ def check_position_hard(i):
 def set_image_of_number(i, count):
     # liczba bomb 1 - przypisz obrazek cyfra1
     if count == 1:
-        pola_gry[i].config(image=cyfra1)
+        pola_gry[i].config(image=cyfra1, command='')
     # analogicznie jak wyżej
     elif count == 2:
-        pola_gry[i].config(image=cyfra2)
+        pola_gry[i].config(image=cyfra2, command='')
     elif count == 3:
-        pola_gry[i].config(image=cyfra3)
+        pola_gry[i].config(image=cyfra3, command='')
     elif count == 4:
-        pola_gry[i].config(image=cyfra4)
+        pola_gry[i].config(image=cyfra4, command='')
     elif count == 5:
-        pola_gry[i].config(image=cyfra5)
+        pola_gry[i].config(image=cyfra5, command='')
     elif count == 0:
-        pola_gry[i].config(image=cyfra0)
+        pola_gry[i].config(image=cyfra0, command='')
 
 ##### Sprawdzanie ilości bomb jako sąsiadów #####
 def neighbour_check(numbers):
@@ -235,8 +262,8 @@ def hide_all_widgets():
         widgets.destroy()
 
 ##### Koniec gry #####
-def end_game(i):
-    print("Przegrałeś")
+def lose_game(i):
+    emotikona.config(image=buzka4)
     mines_positions.remove(i)
     for i in range(len(pola_gry)):
         pola_gry[i].config(command='')
@@ -244,15 +271,21 @@ def end_game(i):
     for j in mines_positions:
         pola_gry[j].config(image=mina)
 
+def win_game():
+    global Timer
+    messagebox.showinfo("Win", f"Wygrałeś! Twój czas to {Timer}s")
+
 ##### Prawe kliknięcie myszy #####
 def right_click(event):
+    aktualizacjaLicznikaMin(licznik_min, 1)
     # usunięcie możliwości sprawdzenia pozycji przy ustawionej fladze
-    event.widget.configure(image = flaga, command = '')
+    event.widget.configure(image = rat, command = '')
     # zbindowanie na prawym przycisku funkcji reset
     event.widget.bind('<Button-3>', reset)
 
 ##### Ponowne kliknięcie prawego przycisku myszy - usunięcie flagi #####
 def reset(event):
+    aktualizacjaLicznikaMin(licznik_min, 2)
     # sprawdzene indeksu dla klikniętego widgetu w liście
     index_of_button = pola_gry.index(event.widget)
     # w zależności od levelu przypisujemy na nowo obrazek i wywoływaną funkcję po kliknięciu
@@ -263,13 +296,131 @@ def reset(event):
     # zbindowanie na prawym przycisku funkcji right_click
     event.widget.bind('<Button-3>', right_click)
 
+# Start panelu głównego - Emma:
+def gorny_start():
+    aktualizacjaZegara(zegar)
+    aktualizacjaLicznikaMin(licznik_min, 0)
+    panel_gorny=[zegar, licznik_min]
+    return panel_gorny
+
+# Zegar - Emma:
+def aktualizacjaZegara(zegar):
+    global Timer
+    Timer+=1
+    zegar["text"]="0"*(3-len(str(Timer)))+str(Timer)
+    root.after(1000, aktualizacjaZegara, zegar)
+
+# Licznik min - Emma:
+def aktualizacjaLicznikaMin(licznik_min, variable):
+    global Mine_number
+    # for mina in range (LICZBAMIN, -1):
+    #     print(mina)
+    if variable == 0:
+        licznik_min["text"]=Mine_number
+    elif variable == 1:
+        Mine_number -= 1
+        licznik_min["text"]=Mine_number
+    elif variable == 2:
+        Mine_number += 1
+        licznik_min["text"]=Mine_number
+
+# Powrót do uśmiechniętej - Emma
+def aktualizujEmotke():
+    emotikona.config(image=buzka1)
+
+# Kliknięcie buźki - Emma
+def ClickEmotke():
+    emotikona.config(image=buzka3)
+    emotikona.after(150, aktualizujEmotke)
+
+def ZeroCheck(level):
+    for i in range (number_of_fields):
+        if level == "easy":
+            numbers = [i - 9, i - 8, i - 7, i - 1, i + 1, i + 7, i + 8, i + 9]
+        else:
+            numbers = [i - 17, i - 16, i - 15, i - 1, i + 1, i + 15, i + 16, i + 17]
+        count = 0
+        for x in numbers:
+            if x in mines_positions:
+                count += 1
+        if count == 0:
+            if i in mines_positions:
+                print("Uuu")
+            else:
+                pola_gry[i].config(image=cyfra0, command='')
+                global Punkty
+                Punkty += 1
+
+Timer = 0
+Mine_number = 10
+Rat_number = Mine_number
+Punkty = 0
+
+
 root = tk.Tk()
-root.title('Saper')
-root.geometry('1200x800')
+root.title('Minesweeper')
+root.geometry('400x450')
+
+info_font = font.Font(family='Tahoma', size=16)
+button_font = font.Font(family='Tahoma', size=16)
+
+# płótno ramki tylniej
+plotno=Canvas(root, width=400, height=450)
+plotno.place(x=0, y=0)
+
+plotno2=Canvas(root, width=850, height=900)
+
+# definiowanie wyglądu - panel górny
+upper_panel = tk.Frame(root, bg="black")
+upper_panel.place(width=360, height=34, y=22, x=20)
+
+# Zegar:
+zegar = tk.Label(upper_panel, bg="black", fg="red", font=("Digital-7", 20), borderwidth=2, relief="raised")
+zegar.place(relx=0.67, y=0)
+zegar["text"]="001"
+
+# Licznik min:
+licznik_min = tk.Label(upper_panel, bg="black", fg="red", font=("Digital-7", 20), borderwidth=2, relief="raised")
+licznik_min.place(relx=0.2, y=0)
+licznik_min["text"]="001"
+
+# Buźka:
+buzka1 = Image.open("Grafiki/buzka_usmiech.png")
+buzka1 = buzka1.resize((40,40))
+buzka1 = ImageTk.PhotoImage(buzka1)
+emotikona=tk.Button(root, width=40, height=40, image=buzka1, bg="#141414", command=ClickEmotke)
+emotikona.place(x=180, y=20)
+
+buzka2 = Image.open("Grafiki/buzka_wow.png")
+buzka2 = buzka2.resize((40,40))
+buzka2 = ImageTk.PhotoImage(buzka2)
+
+buzka3 = Image.open("Grafiki/buzka_zla.png")
+buzka3 = buzka3.resize((40,40))
+buzka3 = ImageTk.PhotoImage(buzka3)
+
+buzka4 = Image.open("Grafiki/buzka_smierc.png")
+buzka4 = buzka4.resize((40,40))
+buzka4 = ImageTk.PhotoImage(buzka4)
+
+# definiowanie wyglądu - panel dolny
+main_panel = tk.Frame(root, bg="black")
+main_panel.place(width=360, height=365, y=65, x=20)
 
 obraz = Image.open("Grafiki/test.png")
 obraz = obraz.resize((40,40))
 test = ImageTk.PhotoImage(obraz)
+
+# definiowanie płótna - ramki
+obraz=Image.open("Grafiki/ramka.png")
+# obraz = obraz.resize((400, 450))
+obrazTk=ImageTk.PhotoImage(obraz)
+plotno.create_image(200,230,image=obrazTk)
+
+# definiowanie płótna - ramki na poziom trudny
+obraz1=Image.open("Grafiki/ramka1.png")
+obraz1 = obraz1.resize((850, 900))
+obrazTk1=ImageTk.PhotoImage(obraz1)
 
 # inicjalizacja grafiki dla bomby
 mina = Image.open("Grafiki/bomba.png")
@@ -280,10 +431,10 @@ mina_red = Image.open("Grafiki/bomba_red.png")
 mina_red = mina_red.resize((40,40))
 mina_red = ImageTk.PhotoImage(mina_red)
 
-# inicjalizacja grafiki dla flagi
-flaga = Image.open("Grafiki/flaga.png")
-flaga = flaga.resize((40,40))
-flaga = ImageTk.PhotoImage(flaga)
+# inicjalizacja grafiki dla szczura
+rat = Image.open("Grafiki/rat.png")
+rat = rat.resize((40,40))
+rat = ImageTk.PhotoImage(rat)
 
 # inicjalizacja grafik liczb
 cyfra1 = Image.open("Grafiki/1.png")
@@ -310,8 +461,6 @@ cyfra0 = Image.open("Grafiki/0.png")
 cyfra0 = cyfra0.resize((40,40))
 cyfra0 = ImageTk.PhotoImage(cyfra0)
 
-info_font = font.Font(family='Tahoma', size=20)
-button_font = font.Font(family='Tahoma', size=20)
 
 ##### Uruchomienie wykonywania programu #####
 welcome_panel()
