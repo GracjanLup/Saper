@@ -79,3 +79,7 @@ Funcjak reset:
 Zofia 12.06.2022 - modyfikacja funkcj right_cilck oraz reset:
 - dodana obsługa zdarzeń
 - blokada lewego przycisku myszy dla funkcji right_clic
+
+Gracjan 12.06.2022 - funkcja wygrnia gry i odsłonięcia 0:
+- funkcja, która po odsłonięciu wszystkich pól wyświetla komunikat o wygraniu gry,
+- funkcja, która przy pierwszym kliknięciu odsłania część zer.
