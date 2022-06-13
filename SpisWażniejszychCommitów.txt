@@ -32,6 +32,35 @@ Zofia 08.06.2022 - Funkcja check_position:
 - sprawdza czy dana pozycja jest miną
 - jeśli nie jest miną, to funkcja sprawdza wszystkich sąsiadów, dla wszystkich możliwych kombinacji 
 
+Zofia 08.06.2022 - Funkcja welcome_panel:
+- panel powitalny
+
+Zofia 08.06.2022 - Funkcja set_level_of_game:
+- umożliwia wybieranie poziomu gry
+
+Zofia 08.06.2022 - Funkcja check_position_easy:
+- sprawdzanie pozycji dla poziomu łatwego
+- sprawdza czy dana pozycja jest miną
+- jeśli nie jest miną, to funkcja sprawdza wszystkich sąsiadów, dla wszystkich możliwych kombinacji 
+- generowanie pozycji sąsiednich 
+
+Zofia 08.06.2022 - Funkcja run_game:
+- inicjalizacja przycisków
+- rysowanie planszy 
+- bindowanie przycisków dla prawego i lewego kliknięcia myszy
+
+Zofia 12.06.2022 - Funkcja check_position_hard
+- sprawdzanie pozycji dla poziomu trudnego
+- sprawdza czy dana pozycja jest miną
+- jeśli nie jest miną, to funkcja sprawdza wszystkich sąsiadów, dla wszystkich możliwych kombinacji 
+- generowanie pozycji sąsiednich 
+
+Zofia 12.06.2022 - Funkcja set_image_of_number:
+- przypisywanie obrazków do przycisków w zależności od posiadanych min jako sąsiadów
+
+Zofia 12.06.2022 - Funkcja neighbour_check:
+- funkcja sprawdza ilość min w wskazanej liście sąsiadów
+
 Gracjan 10.06.2022 - Funkcja end_game, right_click, reset:
 Funkcja end_game: 
 Aktywuje się po kliknięciu na dowolną minę, co zmienia również grafikę klikniętej miny na red_bomb.png
@@ -46,3 +75,7 @@ Aktywowana za pomocą binda na odpowiednich przyciskach,
 Funcjak reset:
 - zmienia grafikę spowrotem na domyślną i przywraca możliwość klikania lewym,
 - zmienia binda spowrotem na right_click co daje nam pętle (co drugi klik flaga).
+
+Zofia 12.06.2022 - modyfikacja funkcj right_cilck oraz reset:
+- dodana obsługa zdarzeń
+- blokada lewego przycisku myszy dla funkcji right_clic
