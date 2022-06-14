@@ -114,6 +114,7 @@ def check_position_easy(i):
         Punkty+=1
         emotikona.config(image=buzka2)
         emotikona.after(300, aktualizujEmotke)
+        pola_gry[i].unbind('<Button-3>')
         # lewy górny róg - ilość bomb jako sąsiadów
         if i == 0:
             numbers = [i + 1, i + 8, i + 9]
@@ -182,6 +183,7 @@ def check_position_hard(i):
         Punkty+=1
         emotikona.config(image=buzka2)
         emotikona.after(300, aktualizujEmotke)
+        pola_gry[i].unbind('<Button-3>')
         # lewy górny róg - ilość bomb jako sąsiadów
         if i == 0:
             numbers = [i + 1, i + 16, i + 17]
